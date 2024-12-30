@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quote-page" class="quote-generator">
+        <h2>Random Quote Generator</h2>
+        <p id="quote">Click the button below to generate a random quote!</p>
+        <button onclick="generateQuote()">Generate Quote</button>
+    </div>
+    
+    <script>
+        const quotes = [
+            "The best way to predict the future is to invent it.",
+            "Life is 10% what happens to us and 90% how we react to it.",
+            "Success is not the key to happiness. Happiness is the key to success.",
+            "Do not watch the clock. Do what it does. Keep going.",
+            "Dream big and dare to fail.",
+            "You must toast the girl before you ask her out",
+            "traffic that causes hold of job for bolt driver causes business for galah seller",
+            "You are never too old to set another goal or to dream a new dream.",
+            "It does not matter how slowly you go as long as you do not stop.",
+            "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+            "Courage is not the absence of fear, but rather the judgment that something else is more important than fear.",
+            "Failure is not the opposite of success; it's part of success.",
+            "You don't have to be great to start, but you have to start to be great.",
+            "Treat others the way you want to be treated.",
+            "The biggest risk is not taking any risk...",
+        ];
+    
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').textContent = quotes[randomIndex];
+        }
+    </script>
+</body>
+</html>

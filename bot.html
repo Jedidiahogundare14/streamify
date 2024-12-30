@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Casino & Economy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #282c34, #4e5661);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .output {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 50px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #61dafb;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #21a1f1;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Casino & Economy Chatbot</h1>
+        <div id="output" class="output">Welcome to the Chatbot! Your starting balance is $1000.</div>
+        <div class="button-group">
+            <button onclick="checkBalance()">Check Balance</button>
+            <button onclick="playSlots()">Play Slots</button>
+            <button onclick="flipCoin()">Flip Coin</button>
+            <button onclick="work()">Work</button>
+            <button onclick="getJob()">Get Job</button>
+            <button onclick="buyItem()">Buy Item</button>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Casino Bot. All rights reserved.
+    </footer>
+
+    <script>
+        // JavaScript Logic
+        let balance = 1000;
+        let lifestyle = 0;
+        let charms = 1.0;
+        let items = [];
+        let job = null;
+
+        const jobs = [
+            { name: "Cashier", salary: 100 },
+            { name: "Software Developer", salary: 500 },
+            { name: "Entrepreneur", salary: 1000 }
+        ];
+
+        const itemsForSale = [
+            { name: "Car", cost: 10000, lifestyle: 5 },
+            { name: "House", cost: 50000, lifestyle: 20 },
+            { name: "Plane", cost: 100000, lifestyle: 50 },
+            { name: "Jewelry", cost: 5000, lifestyle: 2 },
+            { name: "Charm", cost: 1000, lifestyle: 0, charmMultiplier: 0.1 }
+        ];
+
+        function updateOutput(message) {
+            document.getElementById("output").textContent = message;
+        }
+
+        function checkBalance() {
+            updateOutput(`Your balance is $${balance}. Lifestyle: ${lifestyle}.`);
+        }
+
+        function playSlots() {
+            const bet = 100;
+            if (balance < bet) {
+                updateOutput("You don't have enough balance to play slots.");
+                return;
+            }
+
+            balance -= bet;
+            const slots = [
+                Math.floor(Math.random() * 5) + 1,
+                Math.floor(Math.random() * 5) + 1,
+                Math.floor(Math.random() * 5) + 1
+            ];
+
+            if (slots[0] === slots[1] && slots[1] === slots[2]) {
+                const winnings = bet * 10 * charms;
+                balance += winnings;
+                updateOutput(`🎉 Jackpot! Slots: ${slots.join(" | ")}. You won $${winnings.toFixed(2)}!`);
+            } else {
+                updateOutput(`Slots: ${slots.join(" | ")}. You lost $${bet}.`);
+            }
+        }
+
+        function flipCoin() {
+            const bet = 50;
+            if (balance < bet) {
+                updateOutput("You don't have enough balance to flip a coin.");
+                return;
+            }
+
+            const choice = prompt("Heads or Tails?").toLowerCase();
+            if (!["heads", "tails"].includes(choice)) {
+                updateOutput("Invalid choice. Please choose Heads or Tails.");
+                return;
+            }
+
+            balance -= bet;
+            const result = Math.random() < 0.5 ? "heads" : "tails";
+
+            if (choice === result) {
+                const winnings = bet * 2 * charms;
+                balance += winnings;
+                updateOutput(`You guessed ${choice} and the coin landed on ${result}. You won $${winnings.toFixed(2)}!`);
+            } else {
+                updateOutput(`You guessed ${choice}, but the coin landed on ${result}. You lost $${bet}.`);
+            }
+        }
+
+        function work() {
+            if (!job) {
+                updateOutput("You don't have a job. Use 'Get Job' to choose one.");
+                return;
+            }
+
+            balance += job.salary;
+            updateOutput(`You worked as a ${job.name} and earned $${job.salary}.`);
+        }
+
+        function getJob() {
+            const jobName = prompt("Enter job name (Cashier, Software Developer, Entrepreneur):");
+            const selectedJob = jobs.find(j => j.name.toLowerCase() === jobName.toLowerCase());
+
+            if (!selectedJob) {
+                updateOutput("Job not found. Available jobs: Cashier, Software Developer, Entrepreneur.");
+                return;
+            }
+
+            job = selectedJob;
+            updateOutput(`You are now working as a ${job.name}. You earn $${job.salary} per session.`);
+        }
+
+        function buyItem() {
+            const itemName = prompt("Enter item name (Car, House, Plane, Jewelry, Charm):");
+            const item = itemsForSale.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+
+            if (!item) {
+                updateOutput("Item not found. Available items: Car, House, Plane, Jewelry, Charm.");
+                return;
+            }
+
+            if (balance < item.cost) {
+                updateOutput(`You don't have enough money to buy a ${item.name}.`);
+                return;
+            }
+
+            balance -= item.cost;
+            lifestyle += item.lifestyle;
+            if (item.charmMultiplier) {
+                charms += item.charmMultiplier;
+            }
+
+            items.push(item.name);
+            updateOutput(`You bought a ${item.name}! Your lifestyle increased to ${lifestyle}.`);
+        }
+    </script>
+</body>
+</html>
